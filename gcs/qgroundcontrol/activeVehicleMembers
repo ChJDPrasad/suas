@@ -1,0 +1,7 @@
+src/MissionEditor/MissionEditor.qml:88:activeVehicle.coordinateValid
+src/MissionEditor/MissionEditor.qml:88:activeVehicle.coordinate
+src/MissionEditor/MissionEditor.qml:499:activeVehicle.latitude
+src/MissionEditor/MissionEditor.qml:499:activeVehicle.longitude
+src/MissionEditor/MissionEditor.qml:650:activeVehicle.missionManager
+src/FlightDisplay/FlightDisplayViewMap.qml:61:activeVehicle.trajectoryPoints
+src/FlightDisplay/FlightDisplayView.qml:75:activeVehicle.climbRate

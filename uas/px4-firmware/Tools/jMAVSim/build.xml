@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jMAVSim" default="all">
+    <path id="libsclasspath">
+        <fileset dir="lib">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="all" description="Do the entire build" depends="jmavsim"/>
+
+    <target name="make_dirs" description="Make dirs">
+        <mkdir dir="out/production/jMAVSim"/>
+    </target>
+
+    <path id="javac.class.path">
+        <pathelement location="lib/annotations.jar"/>
+    </path>
+
+    <target name="compile" description="Compile java sources" depends="make_dirs">
+        <javac destdir="out/production/jMAVSim" includeantruntime="false" debug="true">
+            <classpath refid="libsclasspath"/>
+            <src path="src"/>
+            <src path="jMAVlib/src"/>
+        </javac>
+    </target>
+
+    <target name="jmavsim" description="Link classes and JARs for jMAVSim" depends="compile">
+        <jar id="jmavsim" jarfile="out/production/jmavsim.jar">
+            <fileset dir="out/production/jMAVSim">
+                <include name="**/*.class"/>
+            </fileset>
+        </jar>
+    </target>
+
+    <target name="clean" description="Clean up">
+        <delete dir="out/production"/>
+    </target>
+</project>

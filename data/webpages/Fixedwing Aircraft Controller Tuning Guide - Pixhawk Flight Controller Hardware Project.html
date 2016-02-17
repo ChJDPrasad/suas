@@ -1,0 +1,495 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0046)https://pixhawk.org/users/fixedwing_pid_tuning -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Fixedwing Aircraft Controller Tuning Guide - Pixhawk Flight Controller Hardware Project</title>
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><![endif]-->
+<meta name="generator" content="DokuWiki">
+<meta name="robots" content="index,follow">
+<meta name="keywords" content="users,fixedwing_pid_tuning">
+<link rel="search" type="application/opensearchdescription+xml" href="https://pixhawk.org/lib/exe/opensearch.php" title="Pixhawk Flight Controller Hardware Project">
+<link rel="start" href="https://pixhawk.org/">
+<link rel="contents" href="https://pixhawk.org/users/fixedwing_pid_tuning?do=index" title="Sitemap">
+<link rel="alternate" type="application/rss+xml" title="Recent changes" href="https://pixhawk.org/feed.php">
+<link rel="alternate" type="application/rss+xml" title="Current namespace" href="https://pixhawk.org/feed.php?mode=list&amp;ns=users">
+<link rel="alternate" type="text/html" title="Plain HTML" href="https://pixhawk.org/_export/xhtml/users/fixedwing_pid_tuning">
+<link rel="alternate" type="text/plain" title="Wiki Markup" href="https://pixhawk.org/_export/raw/users/fixedwing_pid_tuning">
+<link rel="canonical" href="./Fixedwing Aircraft Controller Tuning Guide - Pixhawk Flight Controller Hardware Project_files/Fixedwing Aircraft Controller Tuning Guide - Pixhawk Flight Controller Hardware Project.html">
+<link rel="stylesheet" type="text/css" href="./Fixedwing Aircraft Controller Tuning Guide - Pixhawk Flight Controller Hardware Project_files/css.php">
+<script async="" src="./Fixedwing Aircraft Controller Tuning Guide - Pixhawk Flight Controller Hardware Project_files/analytics.js"></script><script type="text/javascript">/*<![CDATA[*/var NS='users';var JSINFO = {"id":"users:fixedwing_pid_tuning","namespace":"users","toc":{"initial_state":1}};
+/*!]]>*/</script><style type="text/css"></style>
+<script type="text/javascript" charset="utf-8" src="./Fixedwing Aircraft Controller Tuning Guide - Pixhawk Flight Controller Hardware Project_files/js.php"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="shortcut icon" href="https://pixhawk.org/lib/tpl/mnml-blog/user/favicon.ico">
+<link rel="apple-touch-icon" href="https://pixhawk.org/lib/tpl/mnml-blog/images/apple-touch-icon.png">
+<script type="text/javascript" charset="utf-8" src="./Fixedwing Aircraft Controller Tuning Guide - Pixhawk Flight Controller Hardware Project_files/user.js"></script>
+<!--[if lte IE 8]><link rel="stylesheet" media="all" type="text/css" href="/lib/tpl/mnml-blog/css/mnml-blog_screen_iehacks.css" /><![endif]-->
+<!--[if lt IE 7]><style type="text/css">img { behavior: url(/lib/tpl/mnml-blog/js/iepngfix/iepngfix.htc); }</style><![endif]-->
+<link href="./Fixedwing Aircraft Controller Tuning Guide - Pixhawk Flight Controller Hardware Project_files/css" rel="stylesheet" type="text/css">
+<!-- GA script -->
+</head>
+
+<body>
+<div id="pagewrap">
+
+    <!-- start header -->
+    <div id="tmpl_header">
+        <a href="https://pixhawk.org/" name="dokuwiki__top" id="dokuwiki__top" accesskey="h"><img src="./Fixedwing Aircraft Controller Tuning Guide - Pixhawk Flight Controller Hardware Project_files/rotate.php" id="tmpl_header_logo_img" alt=""></a>
+
+       <div id="tmpl_header_nav"><nav>
+<ul>
+<li class="level1"><div class="li"> <a href="https://pixhawk.org/start" class="wikilink1" title="start">Overview</a></div>
+<ul>
+<li class="level2"><div class="li"> <a href="http://px4.io/about-us/videos/" class="urlextern" target="_blank" title="http://px4.io/about-us/videos/" rel="nofollow">Videos</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="https://pixhawk.org/pageindex" class="wikilink1" title="pageindex">Index</a></div>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"> <a href="https://pixhawk.org/modules/start" class="wikilink1" title="modules:start">Hardware</a></div>
+<ul>
+<li class="level2"><div class="li"> <a href="https://pixhawk.org/modules/pixracer" class="wikilink1" title="modules:pixracer">Pixracer Autopilot</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="https://pixhawk.org/modules/pixhawk" class="wikilink1" title="modules:pixhawk">Pixhawk Autopilot</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="https://pixhawk.org/modules/linux/start" class="wikilink1" title="modules:linux:start">Linux Autopilots</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="https://pixhawk.org/modules/px4ioar" class="wikilink1" title="modules:px4ioar">AR.Drone Shield</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="https://pixhawk.org/modules/px4io" class="wikilink1" title="modules:px4io">PX4IO module</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="https://pixhawk.org/modules/px4flow" class="wikilink1" title="modules:px4flow">Opt.Flow Sensor</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="https://pixhawk.org/peripherals/onboard_computers/start" class="wikilink1" title="peripherals:onboard_computers:start">Onboard Computers</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="https://pixhawk.org/modules/can_nodes/start" class="wikilink1" title="modules:can_nodes:start">UAVCAN Modules</a></div>
+<ul>
+<li class="level3"><div class="li"> <a href="https://pixhawk.org/modules/pixhawk_esc" class="wikilink1" title="modules:pixhawk_esc">Pixhawk ESC</a></div>
+</li>
+<li class="level3"><div class="li"> <a href="https://pixhawk.org/modules/can_nodes/lpc11c24_xpresso" class="wikilink1" title="modules:can_nodes:lpc11c24_xpresso">LPC11C24 Dev Board</a></div>
+</li>
+<li class="level3"><div class="li"> <a href="https://pixhawk.org/modules/olimexino_stm32" class="wikilink1" title="modules:olimexino_stm32">Olimexino STM32 Dev Board</a></div>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"> <a href="https://pixhawk.org/peripherals/start" class="wikilink1" title="peripherals:start">Peripherals</a></div>
+<ul>
+<li class="level3"><div class="li"> <a href="https://pixhawk.org/peripherals/radio-control/start" class="wikilink1" title="peripherals:radio-control:start">Radio Control</a></div>
+</li>
+<li class="level3"><div class="li"> <a href="https://pixhawk.org/peripherals/sensors/gps" class="wikilink1" title="peripherals:sensors:gps">GPS Modules</a></div>
+</li>
+<li class="level3"><div class="li"> <a href="https://pixhawk.org/peripherals/telemetry/start" class="wikilink1" title="peripherals:telemetry:start">Telemetry</a></div>
+</li>
+<li class="level3"><div class="li"> <a href="https://pixhawk.org/peripherals/video" class="wikilink1" title="peripherals:video">On-board Video</a></div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"> <a href="http://px4.io/" class="urlextern" target="_blank" title="http://px4.io" rel="nofollow">Firmware</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://pixhawk.org/users/start" class="wikilink1" title="users:start">Setup</a></div>
+<ul>
+<li class="level2"><div class="li"> <a href="http://px4.io/user-guide/" class="urlextern" target="_blank" title="http://px4.io/user-guide/" rel="nofollow">User Guide</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="https://pixhawk.org/platforms/multicopters/start" class="wikilink1" title="platforms:multicopters:start">Multicopters</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="https://pixhawk.org/platforms/planes/start" class="wikilink1" title="platforms:planes:start">Planes</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="https://pixhawk.org/platforms/vtol/start" class="wikilink1" title="platforms:vtol:start">VTOL</a></div>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"> <a href="http://px4.io/" class="urlextern" target="_blank" title="http://px4.io" rel="nofollow">Dev Community</a></div>
+</li>
+</ul>
+
+            <div id="tmpl_header_nav_search" class="dokuwiki">
+<form action="https://pixhawk.org/start" accept-charset="utf-8" class="search" id="dw__search" method="get" role="search"><div class="no"><input type="hidden" name="do" value="search"><input type="text" id="qsearch__in" accesskey="f" name="id" class="edit" title="[F]"><input type="submit" value="Search" class="button" title="Search"><div id="qsearch__out" class="ajax_qsearch JSpopup"></div></div></form>
+            </div>
+            <div class="clearer"></div>
+        </nav></div>
+        <div class="clearer"></div>
+    </div>
+    <!-- end header -->
+
+
+    <!-- start main content area -->
+    <div class="dokuwiki">
+        
+        <!-- start left col -->
+        <div id="content">
+            <div class="page">
+                <!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle open" style="cursor: pointer;"><strong><span>−</span></strong>Table of Contents</h3>
+<div>
+
+<ul class="toc" aria-expanded="true" style="">
+<li class="level1"><div class="li"><a href="https://pixhawk.org/users/fixedwing_pid_tuning#fixedwing_aircraft_controller_tuning_guide">Fixedwing Aircraft Controller Tuning Guide</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="https://pixhawk.org/users/fixedwing_pid_tuning#establishing_the_airframe_baseline">Establishing the Airframe Baseline</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="https://pixhawk.org/users/fixedwing_pid_tuning#tune_roll">Tune Roll</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="https://pixhawk.org/users/fixedwing_pid_tuning#tuning_the_feedforward_gain">Tuning the Feedforward Gain</a></div></li>
+<li class="level2"><div class="li"><a href="https://pixhawk.org/users/fixedwing_pid_tuning#tuning_the_rate_gain">Tuning the Rate Gain</a></div></li>
+<li class="level2"><div class="li"><a href="https://pixhawk.org/users/fixedwing_pid_tuning#tuning_the_trim_offsets_with_the_integrator_gain">Tuning the Trim Offsets with the Integrator Gain</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="https://pixhawk.org/users/fixedwing_pid_tuning#tune_pitch">Tune Pitch</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="https://pixhawk.org/users/fixedwing_pid_tuning#tuning_the_feedforward_gain1">Tuning the Feedforward Gain</a></div></li>
+<li class="level2"><div class="li"><a href="https://pixhawk.org/users/fixedwing_pid_tuning#tuning_the_rate_gain1">Tuning the Rate Gain</a></div></li>
+<li class="level2"><div class="li"><a href="https://pixhawk.org/users/fixedwing_pid_tuning#tuning_the_trim_offsets_with_the_integrator_gain1">Tuning the Trim Offsets with the Integrator Gain</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="https://pixhawk.org/users/fixedwing_pid_tuning#adjusting_the_time_constant_of_the_outer_loop">Adjusting the Time Constant of the Outer Loop</a></div></li>
+<li class="level1"><div class="li"><a href="https://pixhawk.org/users/fixedwing_pid_tuning#l1_controller_tuning_position">L1 Controller Tuning (Position)</a></div></li>
+<li class="level1"><div class="li"><a href="https://pixhawk.org/users/fixedwing_pid_tuning#tecs_tuning_altitude">TECS Tuning (Altitude)</a></div></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+<div class="clearer"></div>
+
+<!-- start rendered page content -->
+
+<h1 class="sectionedit1" id="fixedwing_aircraft_controller_tuning_guide">Fixedwing Aircraft Controller Tuning Guide</h1>
+<div class="level1">
+
+<p>
+</p><p></p><div class="notewarning">Note 1: An incorrectly set gain during tuning can make attitude control unstable. A pilot tuning gains should therefore be able to fly and land the plane in manual (override) control.
+<p></p>
+
+<p>
+Note 2: Excessive gains (and rapid servo motion) can violate the maximum forces of your airframe. Increase gains carefully.
+</p></div><p></p>
+<p></p>
+
+<p>
+Note: Roll and pitch tuning follows the same sequence. The only difference is that pitch is more sensitive to trim offsets, so integrator gains need more attention to compensate this.
+</p>
+
+</div>
+
+<h4 id="parameter_reference">Parameter Reference</h4>
+<div class="level4">
+
+<p>
+All parameters are documented in the <a href="https://pixhawk.org/firmware/parameters" class="wikilink1" title="firmware:parameters">Parameter Reference</a>. The most important parameters are covered in this guide.
+</p>
+
+</div>
+
+<h2 class="sectionedit2" id="establishing_the_airframe_baseline">Establishing the Airframe Baseline</h2>
+<div class="level2">
+
+<p>
+If a pilot capable of manual flight is available, its best to establish a few core system properties on a manual trial. To do this, fly these maneuvers. Even if you can't note all the quantities immediately on paper, the log file will be very useful for later tuning.
+</p>
+
+<p>
+</p><p></p><div class="notetip">All these quantities will be automatically logged. You only need to take notes if you want to directly move on to tuning without looking at the log files
+</div><p></p>
+<p></p>
+<ul>
+<li class="level1"><div class="li"> Fly level with a convenient airspeed. Note throttle stick position and airspeed. (example: 70% → 0.7 throttle, 15 m/s airspeed)</div>
+</li>
+<li class="level1"><div class="li"> Climb with maximum throttle and sufficient airspeed for 10-30 seconds. (example: 12 m/s airspeed, climbed 100 m in 30 seconds)</div>
+</li>
+<li class="level1"><div class="li"> Descend with zero throttle and reasonable airspeed for 10-30 seconds. (example: 18 m/s airspeed, descended 80 m in 30 seconds)</div>
+</li>
+<li class="level1"><div class="li"> Bank hard right with full roll stick until 60 degrees roll, then bank hard left with full roll stick until 60 degrees in the opposide side.</div>
+</li>
+<li class="level1"><div class="li"> Pitch up hard 45 degrees, pitch down hard 45 degrees</div>
+</li>
+</ul>
+
+<p>
+This guide will use these quantities to set some of the controller gains later on.
+</p>
+
+</div>
+
+<h1 class="sectionedit3" id="tune_roll">Tune Roll</h1>
+<div class="level1">
+
+<p>
+Tune first the roll axis, then pitch. The roll axis is safer as an incorrect tuning leads only to motion, but not a loss of altitude.
+</p>
+
+</div>
+
+<h2 class="sectionedit4" id="tuning_the_feedforward_gain">Tuning the Feedforward Gain</h2>
+<div class="level2">
+
+<p>
+To tune this gain, set the other gains to zero.
+</p>
+
+</div>
+
+<h5 id="gains_to_set_to_zero">Gains to set to zero</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> FW_RR_I = 0</div>
+</li>
+<li class="level1"><div class="li"> FW_RR_P = 0</div>
+</li>
+<li class="level1"><div class="li"> FW_RSP_OFF = 0</div>
+</li>
+</ul>
+
+</div>
+
+<h5 id="gains_to_tune">Gains to tune</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> FW_RR_FF - start with a value of 0.4. Increase (doubling each time) this value until the plane rolls satisfactory and reaches the setpoint. Back down the gain 20% at the end of the process.</div>
+</li>
+</ul>
+
+</div>
+
+<h2 class="sectionedit5" id="tuning_the_rate_gain">Tuning the Rate Gain</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> FW_RR_P - start with a value of 0.06. Increase (doubling each time) this value until the system starts to wobble / twitch. Reduce by 50% then.</div>
+</li>
+</ul>
+
+</div>
+
+<h2 class="sectionedit6" id="tuning_the_trim_offsets_with_the_integrator_gain">Tuning the Trim Offsets with the Integrator Gain</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> FW_RR_I - start with a value of 0.01. Increase (doubling each time) this value until there is no offset between commanded and actual roll value (this will most likely require looking at a log file)</div>
+</li>
+</ul>
+
+</div>
+
+<h1 class="sectionedit7" id="tune_pitch">Tune Pitch</h1>
+<div class="level1">
+
+<p>
+The pitch axis might need more integrator gain and a correctly set pitch offset.
+</p>
+
+</div>
+
+<h2 class="sectionedit8" id="tuning_the_feedforward_gain1">Tuning the Feedforward Gain</h2>
+<div class="level2">
+
+<p>
+To tune this gain, set the other gains to zero.
+</p>
+
+</div>
+
+<h5 id="gains_to_set_to_zero1">Gains to set to zero</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> FW_PR_I = 0</div>
+</li>
+<li class="level1"><div class="li"> FW_PR_P = 0</div>
+</li>
+<li class="level1"><div class="li"> FW_PSP_OFF = 0</div>
+</li>
+</ul>
+
+</div>
+
+<h5 id="gains_to_tune1">Gains to tune</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> FW_PR_FF - start with a value of 0.4. Increase (doubling each time) this value until the plane pitches satisfactory and reaches the setpoint. Back down the gain 20% at the end of the process.</div>
+</li>
+</ul>
+
+</div>
+
+<h2 class="sectionedit9" id="tuning_the_rate_gain1">Tuning the Rate Gain</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> FW_PR_P - start with a value of 0.04. Increase (doubling each time) this value until the system starts to wobble / twitch. Reduce by 50% then.</div>
+</li>
+</ul>
+
+</div>
+
+<h2 class="sectionedit10" id="tuning_the_trim_offsets_with_the_integrator_gain1">Tuning the Trim Offsets with the Integrator Gain</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> FW_PR_I - start with a value of 0.01. Increase (doubling each time) this value until there is no offset between commanded and actual roll value (this will most likely require looking at a log file)</div>
+</li>
+</ul>
+
+</div>
+
+<h1 class="sectionedit11" id="adjusting_the_time_constant_of_the_outer_loop">Adjusting the Time Constant of the Outer Loop</h1>
+<div class="level1">
+
+<p>
+The overall softness / hardness of the control loop can be adjusted by the time constant. The default of 0.5 seconds should be fine for normal fixed wing setups and usually does not require adjustment.
+</p>
+<ul>
+<li class="level1"><div class="li"> FW_ATT_TC - set to a default of 0.5 seconds, increase to make the response softer, decrease to make the response harder.</div>
+</li>
+</ul>
+
+</div>
+
+<h1 class="sectionedit12" id="l1_controller_tuning_position">L1 Controller Tuning (Position)</h1>
+<div class="level1">
+
+<p>
+All L1 parameters are described <a href="https://pixhawk.org/firmware/parameters#l1_control" class="wikilink1" title="firmware:parameters">here</a>.
+</p>
+<ul>
+<li class="level1"><div class="li"> FW_L1_PERIOD - This is the L1 distance and defines the tracking point ahead of the aircraft its following. A value of 25 meters works for most aircraft. A value of 16-18 will still work, and provide a sharper response. Shorten slowly during tuning until response is sharp without oscillation.</div>
+</li>
+</ul>
+
+</div>
+
+<h1 class="sectionedit13" id="tecs_tuning_altitude">TECS Tuning (Altitude)</h1>
+<div class="level1">
+
+<p>
+The total energy control system almost always can use the default gains, but needs some information about the main airframe properties to perform correctly.
+</p>
+<ul>
+<li class="level1"><div class="li"> FW_AIRSPD_TRIM - set to the airspeed on a manual level flight</div>
+</li>
+<li class="level1"><div class="li"> FW_AIRSPD_MIN - set to the airspeed on a manual climb</div>
+</li>
+<li class="level1"><div class="li"> FW_AIRSPD_MAX - set to the airspeed on a manual descend</div>
+</li>
+<li class="level1"><div class="li"> FW_THR_CRUISE - set to the throttle (stick position between 0 and 1.0) on a manual level flight at FW_AIRSPEED_TRIM airspeed</div>
+</li>
+<li class="level1"><div class="li"> FW_THR_MIN - set to the throttle on the manual descend</div>
+</li>
+<li class="level1"><div class="li"> FW_THR_MAX - set to the throttle on the manual climb</div>
+</li>
+<li class="level1"><div class="li"> FW_T_CLMB_MAX - set to the climb rate in meters on the manual climb</div>
+</li>
+<li class="level1"><div class="li"> FW_T_SINK_MAX - set to the descend rate in the manual descend</div>
+</li>
+<li class="level1"><div class="li"> FW_T_SINK_MIN - This is the sink rate of the aircraft with the throttle set to FW_THR_MIN and flown at the same airspeed as used to measure FW_T_CLMB_MAX</div>
+</li>
+</ul>
+
+<p>
+Once these parameters are set, put the system into a figure 8 pattern with waypoints and observer the altitude hold and airspeed hold performance. The default gains are “soft” and gentle. To improve altitude hold (but also make the throttle response more twitchy, decrease the time constant:
+</p>
+<ul>
+<li class="level1"><div class="li"> FW_T_TIME_CONST - decrease to improve altitude hold performance, but reduces efficiency and increases wear.</div>
+</li>
+</ul>
+
+</div>
+
+<!-- end rendered page content -->
+<div class="clearer"></div>
+
+
+            </div>
+        </div>
+        <!-- end left col -->
+        
+        <!-- start right col -->
+
+<div class="plugin_translation"><span>Translations of this page:</span> <form action="https://pixhawk.org/start" id="translation__dropdown"><select name="id" class="wikilink1"><option class="wikilink1 cur" title="English" value="users/fixedwing_pid_tuning" selected="selected">en</option><option class="wikilink2" title="中文" value="zh/users/fixedwing_pid_tuning">zh</option></select><input name="go" type="submit" value="→" style="display: none;"></form></div>        <div id="tmpl_sidebar">
+            
+            <div class="sidebarnav">
+
+<p>
+<br>
+
+</p><div id="_username"></div>
+<ul><li class="level1"><div class="li"><a href="https://pixhawk.org/users/fixedwing_pid_tuning?do=register">Register</a></div></li><li class="level1"><div class="li"><a href="https://pixhawk.org/users/fixedwing_pid_tuning?do=login">Login to Edit</a></div></li></ul>
+
+<p></p>
+
+<h1 class="sectionedit1" id="quick_links">Quick Links</h1>
+<div class="level1">
+<ul>
+<li class="level1"><div class="li"> <a href="https://pixhawk.org/pageindex" class="wikilink1" title="pageindex">Documentation Overview</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://pixhawk.org/users/first_steps" class="wikilink2" title="users:first_steps" rel="nofollow">User Manual</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://pixhawk.org/dev/start" class="wikilink1" title="dev:start">Developer Manual</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://groups.google.com/forum/#!forum/px4users" class="urlextern" target="_blank" title="https://groups.google.com/forum/#!forum/px4users" rel="nofollow">Forum</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://pixhawk.org/firmware/downloads" class="wikilink1" title="firmware:downloads">Downloads</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://pixhawk.org/credits" class="wikilink1" title="credits">Contact and Credits</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT1 SECTION "Quick Links" [93-] --><script>
+var username = document.getElementById('_username').innerHTML;
+document.getElementById('_username').innerHTML = "";
+var loc = location.href;
+var url = loc.substr(0, loc.indexOf('?'));
+var anchor = document.getElementById("_login_links");
+var newul = document.createElement("ul");
+
+
+if (username == "") {
+var regHTML = "<li class='level1'><div class='li'><a href='"+url+"?do=register'>Register</a></div></li>"
+var loginHTML = "<li class='level1'><div class='li'><a href='"+url+"?do=login'>Login to Edit</a></div></li>"
+newul.innerHTML = regHTML + loginHTML;
+} else {
+newul.innerHTML = "<li class='level1'><div class='li'><a href='"+url+"?do=edit'>Edit this Page</a></div></li><li class='level1'><div class='li'><a href='"+url+"?do=media'>Media Manager</a></div></li>"
+}
+anchor.parentNode.replaceChild(newul, anchor);
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-33658859-2', 'pixhawk.org');
+  ga('send', 'pageview');
+
+</script>            </div>
+
+
+            
+            
+            <div class="sidebarbox" id="qrcode">
+                <h5 class="hspec">QR Code: URL of current page</h5>
+                <div class="level1"><span class="qrcode"><a href="http://goqr.me/" target="_blank"><img src="./Fixedwing Aircraft Controller Tuning Guide - Pixhawk Flight Controller Hardware Project_files/saved_resource" alt="QR Code: URL of current page Fixedwing Aircraft Controller Tuning Guide (generated for current page)" title="Current page as QR Code (scan for easy mobile access)"></a></span><p class="qrsrc"><a href="http://goqr.me/" target="_blank">QR Code</a> by <a href="http://qrserver.com/" target="_blank">QR-Server</a></p></div>
+            </div>
+
+
+            <div class="clearer"></div>
+        </div>
+        <!-- end right col -->
+        <div class="clearer"></div>
+
+        <div id="tmpl_footer">
+            <div id="tmpl_footer_actlinksleft">
+                [&nbsp;<a href="https://pixhawk.org/users/fixedwing_pid_tuning#dokuwiki__top" class="action top" accesskey="t" rel="nofollow" title="Back to top [T]">Back to top</a>&nbsp;|&nbsp;<a href="https://pixhawk.org/users/fixedwing_pid_tuning?do=index" class="action index" accesskey="x" rel="nofollow" title="Sitemap [X]">Sitemap</a>&nbsp;|&nbsp;<a href="https://pixhawk.org/users/fixedwing_pid_tuning?do=backlink" class="action backlink" rel="nofollow" title="Backlinks">Backlinks</a>&nbsp;|&nbsp;<a href="https://pixhawk.org/users/fixedwing_pid_tuning?do=recent" class="action recent" accesskey="r" rel="nofollow" title="Recent changes [R]">Recent changes</a>&nbsp;]            </div>
+            <div id="tmpl_footer_actlinksright">
+                &nbsp;            </div>
+            <div class="clearer"></div>
+            <div id="tmpl_footer_metainfo">
+                (<a href="http://andreas-haerter.com/" target="_blank">mnml</a><a href="http://www.dokuwiki.org/" target="_blank">DW</a>)
+            </div>
+        </div>
+
+    </div>
+    <!-- end main content area -->
+    <div class="clearer"></div>
+    <img src="./Fixedwing Aircraft Controller Tuning Guide - Pixhawk Flight Controller Hardware Project_files/indexer.php" width="2" height="1" alt="">
+</div>
+
+
+</body></html>
