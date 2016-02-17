@@ -1,7 +1,7 @@
 /*****************************************************************************
  ********************************** LICENSE **********************************
  *****************************************************************************
- * Copyright 2014 Mars Society India                                         *
+ * Copyright 2016 Team Rakshak, IIT Bombay                                   *
  *                                                                           *
  * Licensed under the Apache License, Version 2.0 (the "License");           *
  * you may not use this file except in compliance with the License.          *
@@ -16,7 +16,7 @@
  * limitations under the License.                                            *
  *                                                                           *
  * File		: wifi-tracker.h                                             *
- * Author	: Kamal Galrani                                              *
+ * Author	: Kamal Galrani, Kunal Garg                                  *
  * Description	:                                                            *
  *****************************************************************************
  ******************************* DOCUMENTATION *******************************
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
   ros::init(argc, argv, "WiFi_Tracker");
   ros::NodeHandle _nh("suas");
   signal(SIGINT, Shutdown);
-  ros::Rate loop_rate(10);
+  ros::Rate loop_rate(1);
 
   Init();
   Reset(_nh);
@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
 #define COMMUNICATION_TIMEOUT 5.0f
 
 ros::Subscriber imu_sub, pos_sub;
-double roll, pitch, yaw, t_x, t_y, t_z;
+double roll, pitch, yaw, t_x, t_y, t_z, set_yaw, set_pitch;
 Serial arduino;
 bool hasIMU;
 ros::Time posUpdated;
@@ -98,8 +98,8 @@ void Init() {
 
 void Reset(ros::NodeHandle& _nh) {
   roll = pitch = yaw = 0;
-  t_x = t_y = 0;
-  t_z = 50;
+  t_x = t_y = 1;
+  t_z = -50;
   hasIMU = false;
   posUpdated = ros::Time::now() - ros::Duration(COMMUNICATION_TIMEOUT);
   imu_sub = _nh.subscribe("/wifi/imu/data", 1, imuUpdateCallback);
@@ -116,9 +116,14 @@ void LoopPostCallback() {
   //  t_x = t_y = 0;
   //  t_z = 50;
   //}
+//roll - contains current roll. same for pitch and yaw <wifi_tracker>
+//t_x, t_y, t_z - contain position of aircraft relative to tracker
+  set_pitch = (atan(t_z/sqrt(t_y*t_y + t_x*t_x)))*180/3.1415926539;
+  set_yaw = atan2(t_y,t_x)*180/3.1415926539-yaw;
+  set_yaw = 127+set_yaw/360*127;
 
   std::ostringstream ss;
-  ss << "y" << yaw << "\n";
+  ss << "y" << set_yaw << "\n";
   ROS_INFO_STREAM(ss.str() << "::" << ss.str().length());
   arduino.put(ss.str().c_str(), ss.str().length());
   ss.str("");
@@ -129,6 +134,7 @@ void LoopPostCallback() {
   arduino.put(ss.str().c_str(), ss.str().length());
   ss.str("");
   ss.clear();
+
 }
 
 void Shutdown (int signum) {

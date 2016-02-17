@@ -1,7 +1,14 @@
+#include <PID_v1.h>
+
 char buffer[16];
 char comm_state;
 char bufferPos;
 float yaw, pitch;
+double Setpoint, Input, Output, out1, out2;
+
+PID myPID(&Input, &Output, &Setpoint,20,0.1,5, DIRECT);
+int output1 = 11;
+int output2 = 12;
 
 void clear_buffer() {
   bufferPos = 0;
@@ -24,11 +31,13 @@ void clear_buffer() {
 }
 
 void setup() {
+  pinMode(11, OUTPUT);
+  pinMode(12, OUTPUT);
   Serial.begin(57600);
-//  Serial2.begin(57600);
-  yaw = pitch = t_x = t_y = 0;
-  t_z = 50;
+  Serial2.begin(57600);
+  yaw = pitch=0;
   comm_state = 0;
+  myPID.SetMode(AUTOMATIC);
   clear_buffer();
 }
 
@@ -38,7 +47,7 @@ void loop() {
     if (comm_state == 0) comm_state = inByte;
     else if (inByte == '\n') {
       switch(comm_state) {
-        case 'r':
+        case 'y':
           yaw = atof(buffer);
 //          Serial2.println(roll);
           break;
@@ -55,4 +64,18 @@ void loop() {
       bufferPos++;
     }
   }
+  Setpoint = 127;
+  Input = yaw;
+  myPID.Compute();
+  
+  Serial2.println(Output);
+  delay(100); 
+  out1 = 0;
+  out2 = 0;  
+  if(Output<0)
+     out1 = -Output;
+  else if(Output>0)
+     out2 = Output;    
+  digitalWrite(11, out1);
+  digitalWrite(12, out2);
 }
