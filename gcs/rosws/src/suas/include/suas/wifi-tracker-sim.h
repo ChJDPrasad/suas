@@ -36,10 +36,10 @@ void LoopPostCallback();
 void Shutdown(int signum);
 
 int main(int argc, char **argv) {
-  ros::init(argc, argv, "WiFi_Tracker");
+  ros::init(argc, argv, "WiFi_Tracker_Sim");
   ros::NodeHandle _nh("suas");
   signal(SIGINT, Shutdown);
-  ros::Rate loop_rate(1);
+//  ros::Rate loop_rate(5);
 
   Init();
   Reset(_nh);
@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
     LoopPreCallback();
     ros::spinOnce();
     LoopPostCallback();
-    loop_rate.sleep();
+//    loop_rate.sleep();
   }
   Shutdown(0);
 
@@ -60,50 +60,17 @@ int main(int argc, char **argv) {
 
 
 
-#include <sensor_msgs/Imu.h>
 #include <geometry_msgs/PoseStamped.h>
-#include <tf/transform_datatypes.h>
-#include <tf/tfMessage.h>
-#include <tf/transform_broadcaster.h>
-
-#define COMMUNICATION_TIMEOUT 5.0f
-
-ros::Subscriber imu_sub, pos_sub;
-double roll, pitch, yaw, t_x, t_y, t_z, set_yaw, set_pitch;
-Serial arduino;
-bool hasIMU;
-ros::Time posUpdated;
-
-void imuUpdateCallback(const sensor_msgs::Imu::ConstPtr& msg) {
-  tf::Quaternion latestOrientation_;
-  tf::quaternionMsgToTF(msg->orientation, latestOrientation_);
-  tf::Matrix3x3 mat(latestOrientation_);
-  mat.getRPY(roll, pitch, yaw);
-  roll = roll * 180 / 3.14159265359;
-  pitch = pitch * 180 / 3.14159265359;
-  yaw = yaw * 180 / 3.14159265359;
-  hasIMU = true;
-}
-
-void posUpdateCallback(const geometry_msgs::PoseStamped::ConstPtr& msg) {
-  t_x = msg->pose.position.x;
-  t_y = msg->pose.position.y;
-  t_z = msg->pose.position.z;
-  posUpdated = ros::Time::now();
-}
+ros::Publisher pos_pub;
 
 void Init() {
   while(arduino.connect("/dev/ttyACM1", B57600) < 0 && ros::ok()) { ROS_ERROR("Communication with Arduino failed! Retrying every second..."); usleep(1000000);}
 }
 
 void Reset(ros::NodeHandle& _nh) {
-  roll = pitch = yaw = 0;
   t_x = t_y = 1;
   t_z = -50;
-  hasIMU = false;
-  posUpdated = ros::Time::now() - ros::Duration(COMMUNICATION_TIMEOUT);
-  imu_sub = _nh.subscribe("/wifi/imu/data", 1, imuUpdateCallback);
-  pos_sub = _nh.subscribe("/uas/global_position/local", 1, posUpdateCallback);
+  pos_pub = _nh.advertise<geometry_msgs::PoseStamped>("/uas/global_position/local", 1, imuUpdateCallback);
 }
 
 void LoopPreCallback() {
