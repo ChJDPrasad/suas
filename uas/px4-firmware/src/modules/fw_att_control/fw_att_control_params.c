@@ -468,3 +468,27 @@ PARAM_DEFINE_FLOAT(FW_FLAPS_SCL, 1.0f);
  * @group FW Attitude Control
  */
 PARAM_DEFINE_FLOAT(FW_FLAPERON_SCL, 0.0f);
+
+/**
+ * Gimbal Roll rate feed forward
+ *
+ * Direct feed forward from rate setpoint to control surface output. Use this
+ * to obtain a tigher response of the controller without introducing
+ * noise amplification.
+ *
+ * @min 0.0
+ * @max 10.0
+ * @group FW Attitude Control
+ */
+PARAM_DEFINE_FLOAT(GIMBAL_RR_FF, 0.0f);
+
+/**
+ * Gimbal Pitch rate feed forward
+ *
+ * Direct feed forward from rate setpoint to control surface output
+ *
+ * @min 0.0
+ * @max 10.0
+ * @group FW Attitude Control
+ */
+PARAM_DEFINE_FLOAT(GIMBAL_PR_FF, 0.0f);

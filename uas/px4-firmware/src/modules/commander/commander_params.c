@@ -98,11 +98,41 @@ PARAM_DEFINE_FLOAT(TRIM_YAW, 0.0f);
  * copying them using the GCS.
  *
  * @group Radio Calibration
- * @min -0.2
- * @max 0.2
+ * @min -0.25
+ * @max 0.25
  * @decimal 2
  */
 PARAM_DEFINE_FLOAT(TRIM_STEER, 0.0f);
+
+/**
+ * Gimbal roll trim
+ *
+ * The trim value is the actuator control value the system needs
+ * for straight and level flight. It can be calibrated by
+ * flying manually straight and level using the RC trims and
+ * copying them using the GCS.
+ *
+ * @group Radio Calibration
+ * @min -0.25
+ * @max 0.25
+ * @decimal 2
+ */
+PARAM_DEFINE_FLOAT(GIMBAL_TRIM_ROLL, 0.0f);
+
+/**
+ * Gimbal pitch trim
+ *
+ * The trim value is the actuator control value the system needs
+ * for straight and level flight. It can be calibrated by
+ * flying manually straight and level using the RC trims and
+ * copying them using the GCS.
+ *
+ * @group Radio Calibration
+ * @min -0.25
+ * @max 0.25
+ * @decimal 2
+ */
+PARAM_DEFINE_FLOAT(GIMBAL_TRIM_PITCH, 0.0f);
 
 /**
  * Empty cell voltage.

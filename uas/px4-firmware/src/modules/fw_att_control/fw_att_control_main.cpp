@@ -215,6 +215,11 @@ private:
 
 		int vtol_type;					/**< VTOL type: 0 = tailsitter, 1 = tiltrotor */
 
+		float gimbal_trim_roll;
+		float gimbal_trim_pitch;
+		float gimbal_p_ff;
+		float gimbal_r_ff;
+
 	}		_parameters;			/**< local copies of interesting parameters */
 
 	struct {
@@ -263,6 +268,11 @@ private:
 		param_t flaperon_scale;
 
 		param_t vtol_type;
+
+		param_t gimbal_trim_roll;
+		param_t gimbal_trim_pitch;
+		param_t gimbal_p_ff;
+		param_t gimbal_r_ff;
 
 	}		_parameter_handles;		/**< handles for interesting parameters */
 
@@ -440,6 +450,10 @@ FixedwingAttitudeControl::FixedwingAttitudeControl() :
 
 	_parameter_handles.vtol_type = param_find("VT_TYPE");
 
+	_parameter_handles.gimbal_trim_roll = param_find("GIMBAL_TRIM_ROLL");
+	_parameter_handles.gimbal_trim_pitch = param_find("GIMBAL_TRIM_PITCH");
+	_parameter_handles.gimbal_r_ff = param_find("GIMBAL_RR_FF");
+	_parameter_handles.gimbal_p_ff = param_find("GIMBAL_PR_FF");
 	/* fetch initial parameter values */
 	parameters_update();
 }
@@ -528,6 +542,11 @@ FixedwingAttitudeControl::parameters_update()
 	param_get(_parameter_handles.flaperon_scale, &_parameters.flaperon_scale);
 
 	param_get(_parameter_handles.vtol_type, &_parameters.vtol_type);
+
+	param_get(_parameter_handles.gimbal_trim_roll, &(_parameters.gimbal_trim_roll));
+	param_get(_parameter_handles.gimbal_trim_pitch, &(_parameters.gimbal_trim_pitch));
+	param_get(_parameter_handles.gimbal_r_ff, &(_parameters.gimbal_r_ff));
+	param_get(_parameter_handles.gimbal_p_ff, &(_parameters.gimbal_p_ff));
 
 	/* pitch control parameters */
 	_pitch_ctrl.set_time_constant(_parameters.p_tc);
@@ -1224,6 +1243,9 @@ FixedwingAttitudeControl::task_main()
 			_actuators.control[5] = _manual.aux1;
 			_actuators.control[actuator_controls_s::INDEX_AIRBRAKES] = flaperon_applied;
 			_actuators.control[7] = -_actuators.control[actuator_controls_s::INDEX_YAW]/2 + _manual.aux1/5 + _parameters.trim_steer;
+
+			_actuators_airframe.control[0] = _roll + _ctrl_state.roll_rate * _parameters.gimbal_r_ff + _parameters.gimbal_trim_roll;
+			_actuators_airframe.control[1] = _pitch + _ctrl_state.pitch_rate * _parameters.gimbal_p_ff + _parameters.gimbal_trim_pitch;
 
 			/* lazily publish the setpoint only once available */
 			_actuators.timestamp = hrt_absolute_time();

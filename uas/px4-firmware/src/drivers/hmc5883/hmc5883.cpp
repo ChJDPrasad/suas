@@ -793,7 +793,7 @@ int
 HMC5883::reset()
 {
 	/* set range */
-	return set_range(_range_ga);
+	return set_range(1);
 }
 
 void
