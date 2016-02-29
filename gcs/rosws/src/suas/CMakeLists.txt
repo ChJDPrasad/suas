@@ -133,8 +133,12 @@ add_library(UART
 # add_dependencies(suas ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(wifi_tracker
-  src/wifi-tracker.cpp
+add_executable(communicationGPS
+  src/communication-gps.cpp
+)
+
+add_executable(GPSCorrection
+  src/gps-correction.cpp
 )
 
 ## Add cmake target dependencies of the executable
@@ -142,8 +146,12 @@ add_executable(wifi_tracker
 # add_dependencies(suas_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(wifi_tracker
+target_link_libraries(communicationGPS
   UART
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(GPSCorrection
   ${catkin_LIBRARIES}
 )
 

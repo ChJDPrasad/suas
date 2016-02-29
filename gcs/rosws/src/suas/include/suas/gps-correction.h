@@ -36,9 +36,10 @@ void LoopPostCallback();
 void Shutdown(int signum);
 
 int main(int argc, char **argv) {
-  ros::init(argc, argv, "UBXMsgParser");
+  ros::init(argc, argv, "GPSCorrection");
   ros::NodeHandle _nh("suas");
   signal(SIGINT, Shutdown);
+  ros::Rate loop_rate(5);
 
   Init();
   Reset(_nh);
@@ -46,6 +47,7 @@ int main(int argc, char **argv) {
     LoopPreCallback();
     ros::spinOnce();
     LoopPostCallback();
+    loop_rate.sleep();
   }
   Shutdown(0);
 
