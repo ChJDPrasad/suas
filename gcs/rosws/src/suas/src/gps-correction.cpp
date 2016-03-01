@@ -174,8 +174,8 @@ void LoopPostCallback() {
     double drift;
     double tol1 = 0.0000001;
     double tol2 = 0.0000001;
-    double a1   = 0.4;
-    double a2   = 0.6;
+    double a1   = 1;
+    double a2   = 0.0;
     double del_t = 0.2;
     avg_vel = initialxyz();
 		for(int i =0; i<T; i++)
@@ -189,7 +189,8 @@ void LoopPostCallback() {
 		GPS_xyz = latlon2xyz(GPS_pos);
 		base_pos = rostoLtLn(gpsGcsMsg);
 		drift = norm(latlon2xyz(base_pos));
-ROS_INFO_STREAM("old x: " << GPS_pos.lat<<" old y: "<<GPS_pos.lon<<" old z: "<<GPS_pos.alt);
+ROS_INFO_STREAM("old lat: " << GPS_pos.lat<<" old lon: "<<GPS_pos.lon<<" old alt: "<<GPS_pos.alt);
+ROS_INFO_STREAM("old x: " <<GPS_xyz.x<<" old y: "<<GPS_xyz.y<<" old z: "<< GPS_xyz.z);
 		EKF_xyz0 = latlon2xyz(EKF_pos[0]);
 		EKF_xyzT = latlon2xyz(EKF_pos[T-1]);
 		tol2 = norm(multiply(vel[T-1],del_t*1.5));
@@ -200,11 +201,17 @@ ROS_INFO_STREAM("old x: " << GPS_pos.lat<<" old y: "<<GPS_pos.lon<<" old z: "<<G
 	    if(norm(addxyz(GPS_xyz,multiply(EKF_xyzT,-1)))< tol2)
 			ROS_INFO_STREAM("chill: error less than tol2");
 		else
+<<<<<<< HEAD
 			GPS_xyz = addxyz(addxyz(GPS_xyz ,multiply((addxyz(GPS_xyz,multiply(EKF_xyzT,-1))),del_t*a1*drift/norm((addxyz(GPS_xyz,multiply(EKF_xyzT,-1)))))), multiply(addxyz(addxyz(GPS_xyz,multiply(EKF_xyz0,-1)), multiply(avg_vel,T)),a2));
 
+=======
+			GPS_xyz = addxyz(addxyz(GPS_xyz ,multiply((addxyz(GPS_xyz,multiply(EKF_xyzT,-1))),del_t*a1*drift/norm((addxyz(GPS_xyz,multiply(EKF_xyzT,-1)))))), multiply(addxyz(addxyz(GPS_xyz,multiply(EKF_xyz0,-1)), multiply(avg_vel,T*del_t)),a2));
+	
+>>>>>>> 7ad2a640f4a204ec215da04ccb7dca84dc2fa925
 	GPS_pos_new = xyz2latlon(GPS_xyz);
 
-ROS_INFO_STREAM("new x: " << GPS_pos_new.lat<<" new y: "<<GPS_pos_new.lon<<" new z: "<<GPS_pos_new.alt);
+ROS_INFO_STREAM("new lat: " << GPS_pos_new.lat<<" new lon: "<<GPS_pos_new.lon<<" new alt: "<<GPS_pos_new.alt);
+ROS_INFO_STREAM("new x: "<< GPS_xyz.x<<" new y: "<< GPS_xyz.y<<" new z: "<<GPS_xyz.z);
 }
 
 void Shutdown (int signum) {
