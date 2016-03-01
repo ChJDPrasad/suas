@@ -201,7 +201,7 @@ ROS_INFO_STREAM("old x: " << GPS_pos.lat<<" old y: "<<GPS_pos.lon<<" old z: "<<G
 			ROS_INFO_STREAM("chill: error less than tol2");
 		else
 			GPS_xyz = addxyz(addxyz(GPS_xyz ,multiply((addxyz(GPS_xyz,multiply(EKF_xyzT,-1))),del_t*a1*drift/norm((addxyz(GPS_xyz,multiply(EKF_xyzT,-1)))))), multiply(addxyz(addxyz(GPS_xyz,multiply(EKF_xyz0,-1)), multiply(avg_vel,T)),a2));
-	
+
 	GPS_pos_new = xyz2latlon(GPS_xyz);
 
 ROS_INFO_STREAM("new x: " << GPS_pos_new.lat<<" new y: "<<GPS_pos_new.lon<<" new z: "<<GPS_pos_new.alt);
@@ -210,4 +210,3 @@ ROS_INFO_STREAM("new x: " << GPS_pos_new.lat<<" new y: "<<GPS_pos_new.lon<<" new
 void Shutdown (int signum) {
   ros::shutdown();
 }
-
